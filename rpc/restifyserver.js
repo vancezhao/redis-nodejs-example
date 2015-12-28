@@ -46,11 +46,11 @@ server.get('/', function handle(req, res, next) {
 
     pipeline
         .set(myUUID(), myUUID())
-        .get(myUUID(), function (err, result) {
-
-        })
+        //.get(myUUID(), function (err, result) {
+        //
+        //})
         .exec(function (err, results) {
-            console.log('result is: ' + result);
+            //console.log('result is: ' + result);
 
         });
     res.send({hello: req.params.name});

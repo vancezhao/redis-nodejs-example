@@ -4,6 +4,7 @@
 
 var express = require('express');
 var router = express.Router();
+
 var redisPool = require('redis-connection-pool')('myRedisPool', {
     host: '133.130.120.86', // default
     port: 6379, //default
