@@ -63,7 +63,7 @@ var redis = require('./routes/redis');
 var restify = require('restify');
 var server = restify.createServer();
 
-server.use(restify.queryParser());
+//server.use(restify.queryParser());
 server.get('/', function handle(req, res, next) {
     //res.contentType = 'json';
     //res.send({hello: req.params.name});
