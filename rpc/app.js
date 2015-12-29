@@ -64,25 +64,14 @@ var restify = require('restify');
 var server = restify.createServer();
 
 server.use(restify.queryParser());
-server.get('/redis', function handle(req, res, next) {
-    res.contentType = 'json';
-    var myUUID = uuid;
-    pipeline
-        .set(myUUID(), myUUID())
-        .exec(function (err, results) {
-            //console.log('result is: ' + result);
-
-        });
-    res.send({hello: req.params.name});
-});
-
 server.get('/', function handle(req, res, next) {
-    res.contentType = 'json';
-    res.send({hello: req.params.name});
+    //res.contentType = 'json';
+    //res.send({hello: req.params.name});
+    //return next();
+    res.send('done');
 });
 
 server.listen(9080, function () {
     console.log('listening: %s', server.url);
 });
 
-module.exports = server;
