@@ -68,7 +68,8 @@ server.get('/', function handle(req, res, next) {
     //res.contentType = 'json';
     //res.send({hello: req.params.name});
     //return next();
-    res.send('done');
+    //res.send('done');
+    res.send('');
 });
 
 server.listen(9080, function () {
