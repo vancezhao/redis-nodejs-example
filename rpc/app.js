@@ -9,54 +9,80 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var redis = require('./routes/redis');
 
-var app = express();
+//var app = express();
+//
+//// view engine setup
+//app.set('views', path.join(__dirname, 'views'));
+//app.set('view engine', 'jade');
+//
+//// uncomment after placing your favicon in /public
+////app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//app.use(logger('dev'));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({extended: false}));
+//app.use(cookieParser());
+//app.use(express.static(path.join(__dirname, 'public')));
+//
+//app.use('/', routes);
+//app.use('/users', users);
+//app.use('/redis', redis);
+//
+//// catch 404 and forward to error handler
+//app.use(function (req, res, next) {
+//    var err = new Error('Not Found');
+//    err.status = 404;
+//    next(err);
+//});
+//
+//// error handlers
+//
+//// development error handler
+//// will print stacktrace
+//if (app.get('env') === 'development') {
+//    app.use(function (err, req, res, next) {
+//        res.status(err.status || 500);
+//        res.render('error', {
+//            message: err.message,
+//            error: err
+//        });
+//    });
+//}
+//
+//// production error handler
+//// no stacktraces leaked to user
+//app.use(function (err, req, res, next) {
+//    res.status(err.status || 500);
+//    res.render('error', {
+//        message: err.message,
+//        error: {}
+//    });
+//});
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//module.exports = app;
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+var restify = require('restify');
+var server = restify.createServer();
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/redis', redis);
+server.use(restify.queryParser());
+server.get('/redis', function handle(req, res, next) {
+    res.contentType = 'json';
+    var myUUID = uuid;
+    pipeline
+        .set(myUUID(), myUUID())
+        .exec(function (err, results) {
+            //console.log('result is: ' + result);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
         });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+    res.send({hello: req.params.name});
 });
 
+server.get('/', function handle(req, res, next) {
+    res.contentType = 'json';
+    res.send({hello: req.params.name});
+});
 
-module.exports = app;
+server.listen(9080, function () {
+    console.log('listening: %s', server.url);
+});
+
+module.exports = server;

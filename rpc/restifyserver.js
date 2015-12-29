@@ -35,24 +35,22 @@ if (cluster.isMaster) {
 }
 
 var server = restify.createServer();
+
 server.use(restify.queryParser());
-server.get('/', function handle(req, res, next) {
+server.get('/redis', function handle(req, res, next) {
     res.contentType = 'json';
-
-    console.log(req.params);
-
     var myUUID = uuid;
-    console.log(myUUID());
-
     pipeline
         .set(myUUID(), myUUID())
-        //.get(myUUID(), function (err, result) {
-        //
-        //})
         .exec(function (err, results) {
             //console.log('result is: ' + result);
 
         });
+    res.send({hello: req.params.name});
+});
+
+server.get('/', function handle(req, res, next) {
+    res.contentType = 'json';
     res.send({hello: req.params.name});
 });
 
